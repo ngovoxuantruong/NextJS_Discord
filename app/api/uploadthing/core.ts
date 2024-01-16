@@ -5,12 +5,9 @@ const f = createUploadthing();
 
 const handleAuth = () => {
   const { userId } = auth();
-  console.log(userId);
   if (!userId) throw new Error("Unauthorized");
   return { userId: userId };
 };
-
-
 
 export const ourFileRouter = {
   serverImage: f({ image: { maxFileSize: "4MB", maxFileCount: 1 } })

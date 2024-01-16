@@ -25,6 +25,8 @@ import {
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
 import { FileUpload } from "../file-upload";
+import { useRouter } from "next/navigation";
+import axios from "axios";
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Server name is required." }),
@@ -35,6 +37,7 @@ type formSchemaValidator = z.infer<typeof formSchema>;
 
 export const InitialModel = () => {
   const [isMounted, setIsMounted] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsMounted(true);
@@ -51,7 +54,15 @@ export const InitialModel = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: formSchemaValidator) => {
-    console.log(values);
+    router.refresh();
+    form.reset();
+    window.location.reload();
+
+    await axios({
+      method: "POST",
+      url: "/api/servers",
+      data: values,
+    });
   };
 
   if (!isMounted) {
