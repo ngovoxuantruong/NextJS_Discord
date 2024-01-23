@@ -27,16 +27,16 @@ export const NavigationSidebar = async () => {
 
   return (
     <div className="space-y-3 flex flex-col items-center h-full text-primary w-full dark:bg-[#1E1F22] py-3">
-      <NavigationAction />
-      <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-8 mx-auto" />
-      <ScrollArea className="flex-1 w-full">
+      <ScrollArea className="flex w-full">
         {servers.map((server) => (
-          <div key={server.id} className="mb-4">
+          <div key={server.id} className="last:mb-0  mb-2">
             <NavigationItem id={server.id} name={server.name} imageUrl={server.imageUrl} />
           </div>
         ))}
       </ScrollArea>
-      <div className="pb-3 mt-auto flex items-center flex-col gap-y-4">
+      <Separator className="h-[2px] bg-zinc-300 dark:bg-zinc-700 rounded-md w-8 mx-auto" />
+      <NavigationAction />
+      <div className="pb-3 !mt-auto flex items-center flex-col gap-y-4">
         <ModeToggle />
         <UserButton
           afterSignOutUrl="/"
