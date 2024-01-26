@@ -30,6 +30,11 @@ export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
 
   return (
     <UploadDropzone
+      className="outline-none border-2 border-dashed border-gray-400"
+      appearance={{
+        label: "dark:text-[#B5BAC1] dark:hover:text-[#B5BAC1]/80 transition-all",
+        allowedContent: "dark:text-[#B5BAC1]",
+      }}
       endpoint={endpoint}
       onClientUploadComplete={(res) => {
         onChange(res?.[0].url);

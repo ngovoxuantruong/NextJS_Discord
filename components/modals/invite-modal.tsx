@@ -46,20 +46,20 @@ export const InviteModal = () => {
   };
   return (
     <Dialog open={isModalOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-[#313338] text-[#F2F3F5] p-0 overflow-hidden">
+      <DialogContent className="w-[440px] dark:bg-darkBg dark:text-darkBgText p-0 overflow-hidden">
         <DialogHeader className="pt-8 px-6">
           <DialogTitle className=" text-left font-medium">
-            Invite friends to {server?.name}
+            Invite friends to <strong>{server?.name}</strong>
           </DialogTitle>
         </DialogHeader>
         <div className="p-6">
-          <Label className="uppercase text-xs text-[#B5BAC1] font-bold">
+          <Label className="uppercase text-xs text-[#4E5058] dark:text-darkLabelText font-bold">
             Send a server invite link to a friend
           </Label>
-          <div className="flex bg-[#1E1F22] items-center mt-2 gap-x-2">
+          <div className="flex bg-black/10 dark:bg-darkInputBg items-center mt-2 gap-x-2">
             <Input
               disabled={isLoading}
-              className="text-[#DBDEE1] bg-[#1E1F22] border-0 focus-vissible:ring-0 focus-visible:ring-offset-0"
+              className="dark:text-darkInputText bg-black/[-0.08] dark:bg-darkInputBg border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
               readOnly
               spellCheck="false"
               aria-label="Invite link"
