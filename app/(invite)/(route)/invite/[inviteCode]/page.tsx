@@ -42,7 +42,6 @@ const InviteCode = async ({ params }: InviteCodeProps) => {
       },
     },
   });
-  console.log(server);
   if (server) {
     return redirect(`/servers/${server.id}`);
   }

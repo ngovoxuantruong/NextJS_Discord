@@ -1,5 +1,5 @@
 const ServerIdPage = () => {
-  return <h1>hello ServerIdPage page</h1>;
+  return <h1>hello ServerIdPage</h1>;
 };
 
 export default ServerIdPage;

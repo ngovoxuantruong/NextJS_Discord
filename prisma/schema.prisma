@@ -41,7 +41,7 @@ model Server {
 
 enum MemberRole {
   ADMIN
-  MODERATER
+  MODERATOR
   GUEST
 }
 
