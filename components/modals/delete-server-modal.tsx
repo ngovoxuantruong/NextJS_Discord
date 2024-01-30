@@ -1,10 +1,14 @@
 "use client";
-import { useForm } from "react-hook-form";
+
+import axios from "axios";
 import * as z from "zod";
+import { useForm } from "react-hook-form";
+import qs from "query-string";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import {
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogFooter,
@@ -23,37 +27,36 @@ import {
 
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { FileUpload } from "../file-upload";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { useModal } from "@/app/hooks/use-modal-store";
 
-const formSchema = z.object({
-  name: z.string().min(1, { message: "Server name is required." }),
-  imageUrl: z.string().min(1, { message: "Server image is required." }),
-});
-
-type formSchemaValidator = z.infer<typeof formSchema>;
-
-export const CreateServerModal = () => {
-  const { type, isOpen, onClose } = useModal();
-  const isModalOpen = isOpen && type === "createServer";
+export const DeleteServerModal = () => {
+  const { data, type, isOpen, onClose } = useModal();
+  const isModalOpen = isOpen && type === "deleteModal";
+  const { server } = data;
   const router = useRouter();
 
+  const formSchema = z.object({
+    name: z
+      .string()
+      .min(1, { message: "Please enter your server name." })
+      .includes(`${server?.name}`, {
+        message: "You didn't enter the server name correctly.",
+      }),
+  });
+  type formSchemaValidator = z.infer<typeof formSchema>;
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      imageUrl: "",
     },
   });
 
   const isLoading = form.formState.isSubmitting;
 
-  const onSubmit = async (values: formSchemaValidator) => {
+  const onSubmit = async () => {
     try {
-      await axios.post("/api/servers", values);
-
+      await axios.delete(`/api/servers/${server?.id}`);
       form.reset();
       router.refresh();
       onClose();
@@ -69,44 +72,26 @@ export const CreateServerModal = () => {
 
   return (
     <Dialog open={isModalOpen} onOpenChange={handleClose}>
-      <DialogContent className="w-[440px] bg-white dark:bg-[#313338] dark:text-[#F2F3F5] text-black p-0 overflow-hidden">
-        <DialogHeader className="pt-8 px-6">
-          <DialogTitle className="text-2xl text-center font-bold">
-            Customize your server
+      <DialogContent className="w-[440px] bg-white dark:bg-darkBg dark:text-darkBgText text-black p-0 overflow-hidden">
+        <DialogHeader className="pt-4 px-6">
+          <DialogTitle className="text-xl text-dark text-left font-semibold">
+            Delete {`'${server?.name}' server`}
           </DialogTitle>
-          <DialogDescription className="text-center text-zinc-500 dark:text-[#B5BAC1]">
-            Give your server a personality with a name and an image. You can always change it later.
+          <DialogDescription className="bg-[#AF7615] dark:bg-[#F0B132] text-left text-white p-3 rounded-md">
+            Are you sure you want to delete <strong>{server?.name} server</strong>? This action
+            cannot be undone.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
             <div className="space-y-8 px-6">
-              <div className="flex items-center justify-center text-center">
-                <FormField
-                  control={form.control}
-                  name="imageUrl"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <FileUpload
-                          endpoint="serverImage"
-                          value={field.value}
-                          onChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
               <FormField
                 control={form.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-[#B5BAC1]">
-                      Server name
+                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-[#DBDEE1]">
+                      Enter server name
                     </FormLabel>
                     <FormControl>
                       <Input
@@ -122,8 +107,17 @@ export const CreateServerModal = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 dark:bg-darkBgFooter px-6 py-4">
-              <Button disabled={isLoading} variant={"primary"}>
-                Create
+              <DialogClose
+                disabled={isLoading}
+                className="mr-2 hover:underline hover:underline-offset-4 text-sm"
+              >
+                Cancel
+              </DialogClose>
+              <Button
+                disabled={isLoading}
+                className="bg-rose-500 hover:bg-rose-500/60 dark:text-white"
+              >
+                Delete Server
               </Button>
             </DialogFooter>
           </form>

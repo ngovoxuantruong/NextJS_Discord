@@ -53,7 +53,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             className="text-indigo-6000 dark:text-indigo-400 px-3 py-2 text-sm cursor-pointer"
           >
             Invite People
-            <UserPlus className="w-4 h-4 ml-auto" />
+            <UserPlus className="w-4 h-4 ml-auto dark:text-[#B5BAC1]" />
           </DropdownMenuItem>
         )}
         {isModerator && (
@@ -62,7 +62,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             className=" px-3 py-2 text-sm cursor-pointer"
           >
             Server Settings
-            <Settings className="w-4 h-4 ml-auto text-[#B5BAC1]" />
+            <Settings className="w-4 h-4 ml-auto dark:text-[#B5BAC1]" />
           </DropdownMenuItem>
         )}
         {isModerator && (
@@ -71,7 +71,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             className=" px-3 py-2 text-sm cursor-pointer"
           >
             Manage Member
-            <Users className="w-4 h-4 ml-auto text-[#B5BAC1]" />
+            <Users className="w-4 h-4 ml-auto dark:text-[#B5BAC1]" />
           </DropdownMenuItem>
         )}
         {isModerator && (
@@ -80,20 +80,26 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
             className=" px-3 py-2 text-sm cursor-pointer"
           >
             Create Channel
-            <PlusCircle className="w-4 h-4 ml-auto text-[#B5BAC1]" />
+            <PlusCircle className="w-4 h-4 ml-auto dark:text-[#B5BAC1]" />
           </DropdownMenuItem>
         )}
         {isModerator && <DropdownMenuSeparator className="w-48 mx-auto" />}
         {isAdmin && (
-          <DropdownMenuItem className="text-rose-500 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem
+            onClick={() => onOpen("deleteModal", { server })}
+            className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
+          >
             Delete Server
-            <Trash2 className="w-4 h-4 ml-auto text-[#B5BAC1]" />
+            <Trash2 className="w-4 h-4 ml-auto dark:text-[#B5BAC1]" />
           </DropdownMenuItem>
         )}
         {!isAdmin && (
-          <DropdownMenuItem className="text-rose-500 px-3 py-2 text-sm cursor-pointer">
+          <DropdownMenuItem
+            onClick={() => onOpen("leaveModal", { server })}
+            className="text-rose-500 px-3 py-2 text-sm cursor-pointer"
+          >
             Leave Server
-            <LogOut className="w-4 h-4 ml-auto text-[#B5BAC1]" />
+            <LogOut className="w-4 h-4 ml-auto dark:text-[#B5BAC1]" />
           </DropdownMenuItem>
         )}
       </DropdownMenuContent>
