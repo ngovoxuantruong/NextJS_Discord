@@ -102,7 +102,7 @@ export const CreateChannelModal = () => {
                 control={form.control}
                 name="type"
                 render={({ field }) => (
-                  <FormItem className="space-y-3">
+                  <FormItem className="space-y-3 ">
                     <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-darkLabelText">
                       Channel type
                     </FormLabel>
@@ -114,13 +114,13 @@ export const CreateChannelModal = () => {
                       >
                         <FormItem
                           className={cn(
-                            "flex items-center space-x-3 space-y-0 bg-[#F2F3F5] dark:bg-[#2B2D31] mb-2 rounded py-2 px-3",
-                            selectedRadio == ChannelType.TEXT.toLowerCase() &&
-                              "bg-[#80848E]/20 dark:bg-[#4E5058]"
+                            "flex items-center space-x-3 space-y-0 bg-[#F2F3F5]/80 hover:bg-[#F2F3F5] dark:bg-[#2B2D31] hover:dark:bg-[#4E5058]/30 mb-2 rounded py-2 px-3 cursor-pointer",
+                            selectedRadio == ChannelType.TEXT &&
+                              "!bg-[#80848E]/20 !dark:bg-[#4E5058]"
                           )}
                         >
                           <Hash className="text-gray-400" />
-                          <FormLabel className="font-medium leading-tight text-gray-500 dark:text-[#DBDEE1]">
+                          <FormLabel className="font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
                             Text
                             <FormDescription className="text-xs dark:text-darkLabelText mt-1">
                               Send messages, images, GIFs, emoji, opinions, and puns
@@ -138,13 +138,13 @@ export const CreateChannelModal = () => {
 
                         <FormItem
                           className={cn(
-                            "flex items-center space-x-3 space-y-0 bg-[#F2F3F5] dark:bg-[#2B2D31] mb-2 rounded py-2 px-3",
-                            selectedRadio == ChannelType.AUDIO.toLowerCase() &&
-                              "bg-[#80848E]/20 dark:bg-[#4E5058]"
+                            "flex items-center space-x-3 space-y-0 bg-[#F2F3F5]/80 hover:bg-[#F2F3F5] dark:bg-[#2B2D31] hover:dark:bg-[#4E5058]/30 mb-2 rounded py-2 px-3 cursor-pointer",
+                            selectedRadio == ChannelType.AUDIO &&
+                              "!bg-[#80848E]/20 !dark:bg-[#4E5058]"
                           )}
                         >
                           <Volume2Icon className="text-gray-400" />
-                          <FormLabel className="font-medium leading-tight text-gray-500 dark:text-[#DBDEE1]">
+                          <FormLabel className="font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
                             Voice
                             <FormDescription className="text-xs dark:text-darkLabelText mt-1">
                               Hang out together with voice, video, and screen share
