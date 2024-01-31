@@ -30,7 +30,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useModal } from "@/app/hooks/use-modal-store";
 import { ChannelType } from "@prisma/client";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Hash, Volume2Icon } from "lucide-react";
+import { Hash, Headphones, Volume2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -143,11 +143,11 @@ export const CreateChannelModal = () => {
                               "!bg-[#80848E]/20 !dark:bg-[#4E5058]"
                           )}
                         >
-                          <Volume2Icon className="text-gray-400" />
+                          <Headphones className="text-gray-400" />
                           <FormLabel className="font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
-                            Voice
+                            Audio
                             <FormDescription className="text-xs dark:text-darkLabelText mt-1">
-                              Hang out together with voice, video, and screen share
+                              Hang out together with voice share
                             </FormDescription>
                           </FormLabel>
                           <FormControl>
@@ -155,6 +155,30 @@ export const CreateChannelModal = () => {
                               value={ChannelType.AUDIO}
                               className="absolute right-10"
                               checked={selectedRadio === ChannelType.AUDIO}
+                              onClick={(event) => handleRadioChange(event)}
+                            />
+                          </FormControl>
+                        </FormItem>
+
+                        <FormItem
+                          className={cn(
+                            "flex items-center space-x-3 space-y-0 bg-[#F2F3F5]/80 hover:bg-[#F2F3F5] dark:bg-[#2B2D31] hover:dark:bg-[#4E5058]/30 mb-2 rounded py-2 px-3 cursor-pointer",
+                            selectedRadio == ChannelType.VIDEO &&
+                              "!bg-[#80848E]/20 !dark:bg-[#4E5058]"
+                          )}
+                        >
+                          <Volume2Icon className="text-gray-400" />
+                          <FormLabel className="font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
+                            Video
+                            <FormDescription className="text-xs dark:text-darkLabelText mt-1">
+                              Hang out together with video, and screen share
+                            </FormDescription>
+                          </FormLabel>
+                          <FormControl>
+                            <RadioGroupItem
+                              value={ChannelType.VIDEO}
+                              className="absolute right-10"
+                              checked={selectedRadio === ChannelType.VIDEO}
                               onClick={(event) => handleRadioChange(event)}
                             />
                           </FormControl>

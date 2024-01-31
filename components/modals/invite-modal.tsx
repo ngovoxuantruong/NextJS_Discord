@@ -59,7 +59,7 @@ export const InviteModal = () => {
           <div className="flex bg-black/10 dark:bg-darkInputBg items-center mt-2 gap-x-2">
             <Input
               disabled={isLoading}
-              className="dark:text-darkInputText bg-black/[-0.08] dark:bg-darkInputBg border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+              className="dark:text-darkInputText bg-black/[-0.08] dark:bg-darkInputBg border-0 focus-visible:ring-0 focus-visible:ring-offset-0 select-none"
               readOnly
               spellCheck="false"
               aria-label="Invite link"
