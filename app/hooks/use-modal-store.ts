@@ -1,4 +1,4 @@
-import { ChannelType, Server } from "@prisma/client";
+import { Channel, ChannelType, Server } from "@prisma/client";
 import { create } from "zustand";
 
 type ModalType =
@@ -8,10 +8,13 @@ type ModalType =
   | "members"
   | "createChannel"
   | "leaveModal"
-  | "deleteModal";
+  | "deleteModal"
+  | "deleteChannel"
+  | "editChannel";
 
 interface ModalData {
   server?: Server;
+  channel?: Channel;
   channelType?: ChannelType;
 }
 
