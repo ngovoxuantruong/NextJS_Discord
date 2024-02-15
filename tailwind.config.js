@@ -17,8 +17,9 @@ module.exports = {
     },
     extend: {
       colors: {
+        "white-bg-secondary": "#F2F3F5",
         darkBg: "#313338",
-        darkBgFooter: "#2B2D31",
+        "dark-bg-secondary": "#2B2D31",
         darkBgText: "#F2F3F5",
         darkLabelText: "#B5BAC1",
         darkInputBg: "#1E1F22",

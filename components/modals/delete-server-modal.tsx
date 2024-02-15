@@ -106,7 +106,7 @@ export const DeleteServerModal = () => {
                 )}
               />
             </div>
-            <DialogFooter className="bg-gray-100 dark:bg-darkBgFooter px-6 py-4">
+            <DialogFooter className="bg-gray-100 dark:bg-dark-bg-secondary px-6 py-4">
               <DialogClose
                 disabled={isLoading}
                 className="mr-2 hover:underline hover:underline-offset-4 text-sm"

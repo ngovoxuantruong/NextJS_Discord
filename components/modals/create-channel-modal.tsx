@@ -32,7 +32,7 @@ import { ChannelType } from "@prisma/client";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Hash, Headphones, Volume2Icon } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const formSchema = z.object({
   name: z
@@ -45,11 +45,12 @@ const formSchema = z.object({
 type formSchemaValidator = z.infer<typeof formSchema>;
 
 export const CreateChannelModal = () => {
-  const { type, isOpen, onClose } = useModal();
+  const { type, isOpen, onClose, data } = useModal();
   const [selectedRadio, setSelectedRadio] = useState("TEXT");
   const isModalOpen = isOpen && type === "createChannel";
   const router = useRouter();
   const params = useParams();
+  const { channelType } = data;
 
   const handleRadioChange = (event: any) => {
     setSelectedRadio(event.target.value);
@@ -59,9 +60,19 @@ export const CreateChannelModal = () => {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      type: ChannelType.TEXT,
+      type: channelType || ChannelType.TEXT,
     },
   });
+
+  useEffect(() => {
+    if (channelType) {
+      form.setValue("type", channelType);
+      setSelectedRadio(channelType);
+    } else {
+      form.setValue("type", ChannelType.TEXT);
+      setSelectedRadio(ChannelType.TEXT);
+    }
+  }, [form, channelType]);
 
   const isLoading = form.formState.isSubmitting;
 
@@ -103,7 +114,7 @@ export const CreateChannelModal = () => {
                 name="type"
                 render={({ field }) => (
                   <FormItem className="space-y-3 ">
-                    <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-darkLabelText">
+                    <FormLabel className="flex-1 uppercase text-xs font-bold text-zinc-500 dark:text-darkLabelText">
                       Channel type
                     </FormLabel>
                     <FormControl>
@@ -119,8 +130,10 @@ export const CreateChannelModal = () => {
                               "!bg-[#80848E]/20 !dark:bg-[#4E5058]"
                           )}
                         >
-                          <Hash className="text-gray-400" />
-                          <FormLabel className="font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
+                          <FormLabel className="cursor-pointer">
+                            <Hash className="text-gray-400" />
+                          </FormLabel>
+                          <FormLabel className="flex-1 font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
                             Text
                             <FormDescription className="text-xs dark:text-darkLabelText mt-1">
                               Send messages, images, GIFs, emoji, opinions, and puns
@@ -130,7 +143,6 @@ export const CreateChannelModal = () => {
                             <RadioGroupItem
                               value={ChannelType.TEXT}
                               className="absolute right-10 "
-                              checked={selectedRadio === ChannelType.TEXT}
                               onClick={(event) => handleRadioChange(event)}
                             />
                           </FormControl>
@@ -143,8 +155,10 @@ export const CreateChannelModal = () => {
                               "!bg-[#80848E]/20 !dark:bg-[#4E5058]"
                           )}
                         >
-                          <Headphones className="text-gray-400" />
-                          <FormLabel className="font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
+                          <FormLabel className="cursor-pointer">
+                            <Headphones className=" text-gray-400" />
+                          </FormLabel>
+                          <FormLabel className="flex-1 font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
                             Audio
                             <FormDescription className="text-xs dark:text-darkLabelText mt-1">
                               Hang out together with voice share
@@ -154,7 +168,6 @@ export const CreateChannelModal = () => {
                             <RadioGroupItem
                               value={ChannelType.AUDIO}
                               className="absolute right-10"
-                              checked={selectedRadio === ChannelType.AUDIO}
                               onClick={(event) => handleRadioChange(event)}
                             />
                           </FormControl>
@@ -167,8 +180,10 @@ export const CreateChannelModal = () => {
                               "!bg-[#80848E]/20 !dark:bg-[#4E5058]"
                           )}
                         >
-                          <Volume2Icon className="text-gray-400" />
-                          <FormLabel className="font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
+                          <FormLabel className="cursor-pointer">
+                            <Volume2Icon className="text-gray-400" />
+                          </FormLabel>
+                          <FormLabel className="flex-1 font-medium leading-tight text-gray-500 dark:text-[#DBDEE1] cursor-pointer">
                             Video
                             <FormDescription className="text-xs dark:text-darkLabelText mt-1">
                               Hang out together with video, and screen share
@@ -178,7 +193,6 @@ export const CreateChannelModal = () => {
                             <RadioGroupItem
                               value={ChannelType.VIDEO}
                               className="absolute right-10"
-                              checked={selectedRadio === ChannelType.VIDEO}
                               onClick={(event) => handleRadioChange(event)}
                             />
                           </FormControl>
@@ -212,7 +226,7 @@ export const CreateChannelModal = () => {
                 )}
               />
             </div>
-            <DialogFooter className="bg-gray-100 dark:bg-darkBgFooter px-6 py-4">
+            <DialogFooter className="bg-gray-100 dark:bg-dark-bg-secondary px-6 py-4">
               <Button disabled={isLoading} variant={"primary"}>
                 Create
               </Button>

@@ -55,7 +55,7 @@ export const LeaveServerModal = () => {
             able to rejoin this server unless you are re-invited.
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="bg-gray-100 dark:bg-darkBgFooter px-6 py-4">
+        <DialogFooter className="bg-gray-100 dark:bg-dark-bg-secondary px-6 py-4">
           <DialogClose
             disabled={isLoading}
             className="mr-2 hover:underline hover:underline-offset-4 text-sm"
