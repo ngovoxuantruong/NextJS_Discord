@@ -20,17 +20,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 
+import axios from "axios";
+import qs from "query-string";
 import { Button } from "../ui/button";
 import { Input } from "../ui/input";
-import { FileUpload } from "../file-upload";
 import { useRouter } from "next/navigation";
-import axios from "axios";
 import { useModal } from "@/app/hooks/use-modal-store";
 import { useEffect } from "react";
 
 const formSchema = z.object({
-  name: z.string().min(1, { message: "Server name is required." }),
-  imageUrl: z.string().min(1, { message: "Server image is required." }),
+  name: z
+    .string()
+    .min(1, { message: "Must be between 1 and 100 in length. Channel name cannot be ''." }),
 });
 
 type formSchemaValidator = z.infer<typeof formSchema>;
@@ -39,28 +40,32 @@ export const EditChannelModal = () => {
   const { type, isOpen, onClose, data } = useModal();
   const isModalOpen = isOpen && type === "editChannel";
   const router = useRouter();
-  const { server } = data;
+  const { server, channel } = data;
 
   const form = useForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      imageUrl: "",
     },
   });
 
   useEffect(() => {
-    if (server) {
-      form.setValue("name", server.name);
-      form.setValue("imageUrl", server.imageUrl);
+    if (channel) {
+      form.setValue("name", channel.name);
     }
-  }, [form, server]);
+  }, [form, channel]);
 
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: formSchemaValidator) => {
     try {
-      await axios.patch(`/api/servers/${server?.id}`, values);
+      const url = qs.stringifyUrl({
+        url: `/api/channels/${channel?.id}`,
+        query: {
+          serverId: server?.id,
+        },
+      });
+      await axios.patch(url, values);
 
       form.reset();
       router.refresh();
@@ -89,13 +94,13 @@ export const EditChannelModal = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="uppercase text-xs font-bold text-zinc-500 dark:text-[#B5BAC1]">
-                      Server name
+                      Channel name
                     </FormLabel>
                     <FormControl>
                       <Input
                         disabled={isLoading}
                         className="bg-zinc-300/50 dark:bg-[#1E1F22] border-0 focus-visible:ring-0 text-black dark:text-[#DBDEE1] focus-visible:ring-offset-0"
-                        placeholder="Enter server name"
+                        placeholder="Edit your channel name"
                         {...field}
                       />
                     </FormControl>
@@ -105,7 +110,7 @@ export const EditChannelModal = () => {
               />
             </div>
             <DialogFooter className="bg-gray-100 dark:bg-dark-bg-secondary px-6 py-4">
-              <Button disabled={isLoading} variant={"primary"}>
+              <Button type="submit" disabled={isLoading} variant={"primary"}>
                 Save
               </Button>
             </DialogFooter>
